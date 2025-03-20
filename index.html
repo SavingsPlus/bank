@@ -6,7 +6,7 @@
     <title>Login Page</title>
     <style>
       .container {
-        background-color: rgb(23, 107, 81);;
+        background-color: rgb(23, 107, 81);
         padding: 30px;
         max-width: 370px;
         border-radius: 10px;
@@ -56,113 +56,112 @@
       }
       h1 {
         text-align: center;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
         color: #ffffff;
       }
     </style>
   </head>
   <body>
     <div class="container">
-    <h1>SavingsPlus</h1>
+      <h1>SavingsPlus</h1>
       <h2>Login</h2>
       <form id="loginForm">
         <div>
-          <label for="userID">Email</label><br>
+          <label for="userID">Email</label><br />
           <input type="text" id="userID" required />
         </div>
         <div>
-          <label for="passWord">Password</label><br>
+          <label for="passWord">Password</label><br />
           <input type="password" id="passWord" required />
         </div>
         <button type="submit">Login</button>
       </form>
     </div>
 
+
     <div id="display"></div>
 
     <script type="module">
-       // Import the functions you need from the SDKs you need
-       import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, getDoc, doc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        getDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBN5PBfHzneISCGAS-sFG9gbPQ9X8NIVpY",
-            authDomain: "coinhub-e63be.firebaseapp.com",
-            projectId: "coinhub-e63be",
-            storageBucket: "coinhub-e63be.firebasestorage.app",
-            messagingSenderId: "422080012670",
-            appId: "1:422080012670:web:681cb33085707a4c9b532f"
-          };
-          
-          // Initialize Firebase
-          const app = initializeApp(firebaseConfig);
-          const db = getFirestore(app);
-          const colRef = collection(db, 'Users')
-          
-          
-          loginForm.addEventListener("submit", displayProfile);
-        async function displayProfile(e) {
-          e.preventDefault();
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBN5PBfHzneISCGAS-sFG9gbPQ9X8NIVpY",
+        authDomain: "coinhub-e63be.firebaseapp.com",
+        projectId: "coinhub-e63be",
+        storageBucket: "coinhub-e63be.firebasestorage.app",
+        messagingSenderId: "422080012670",
+        appId: "1:422080012670:web:681cb33085707a4c9b532f",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const colRef = collection(db, "UserOne");
+
+      loginForm.addEventListener("submit", displayProfile);
+      async function displayProfile(e) {
+        e.preventDefault();
         try {
           const querySnap = await getDocs(colRef);
 
           console.log(querySnap);
-          display.innerHTML='';
+          display.innerHTML = "";
           querySnap.forEach((docSnap) => {
             const actualData = docSnap.data();
             console.log(actualData);
-            
           });
 
           querySnap.forEach((docSnap) => {
             const actualData = docSnap.data();
             // Geting user input
-          const userID = document.getElementById("userID").value;
-          const passWord = document.getElementById("passWord").value;
+            const userID = document.getElementById("userID").value;
+            const passWord = document.getElementById("passWord").value;
 
-          // Basic validation
-          if (!userID || !passWord) {
-            alert("Please enter both Matric Number and Password.");
-            return;
-          }
-
-          // Retreving stored credentials from localStorage
-          const storedMatric = actualData.email;
-          const storedPassword = actualData.password;
-
-          // Checking if stored data exists
-          if (storedMatric =="" || storedPassword == "") {
-            alert("No account found.");
-            // window.location.href = "/Classwork/signup.html";
-            return;
-          }
-
-          // Verify credentials
-          if (userID === storedMatric && passWord === storedPassword) {
-            // alert("Login successful!");
-            window.location.href = "./pages/home.html";
-          } else {
-            alert("Invalid credentials. Please try again.");
-
-            // Check if username doesn't exist in localStorage
-            if (!storedMatric) {
-              window.location.href = "/Classwork/signup.html";
+            // Basic validation
+            if (!userID || !passWord) {
+              alert("Please enter both Matric Number and Password.");
+              return;
             }
-          }
+
+            // Retreving stored credentials from localStorage
+            const storedMatric = actualData.email;
+            const storedPassword = actualData.password;
+
+            // Checking if stored data exists
+            if (storedMatric == "" || storedPassword == "") {
+              alert("No account found.");
+              // window.location.href = "/Classwork/signup.html";
+              return;
+            }
+
+            // Verify credentials
+            if (userID === storedMatric && passWord === storedPassword) {
+              // alert("Login successful!");
+              window.location.href = "./pages/home.html";
+            } else {
+              alert("Invalid credentials. Please try again.");
+
+              // Check if username doesn't exist in localStorage
+              if (!storedMatric) {
+                window.location.href = "/Classwork/signup.html";
+              }
+            }
           });
-          
-          
         } catch (error) {
           console.log(error);
-          
         }
       }
-
-
-
     </script>
   </body>
 </html>
